@@ -9,9 +9,9 @@ const logOut = () => {
 
     const handleLogOut=async()=>{
         try {
-           auth.logOut()
-           .then(disPatch(logout()))
-           .then(console.log("USER LOGED OUT AND REDIRECTING TO LOGIN PAGE"))
+          auth.logOut()
+          .then(disPatch(logout()))
+          .then(console.log("USER LOGED OUT AND REDIRECTING TO LOGIN PAGE"))
         } catch (error) {
             console.log("ERROR TO LOGOUT IN COMPONENT : : ",error);
         }

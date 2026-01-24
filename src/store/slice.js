@@ -1,7 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import store from "./store";
-import { useState,useEffect } from "react";
-import { useDispatch } from "react-redux";
 
 const initialState={
     status:false,

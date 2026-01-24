@@ -20,7 +20,6 @@ export class auth{
                 password:password,
                 name:name,
             })
-            // if(user)    return this.
             console.log(user);
         } catch (error) {
             console.log("ERROR IN ACCOUNT CREATION : : ",error);
