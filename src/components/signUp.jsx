@@ -1,4 +1,4 @@
-import authService from "../appWrite/auth.jsx";
+import authService from "../appWrite/auth.js"
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Input from "./Input.jsx";

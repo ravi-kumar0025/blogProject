@@ -1,13 +1,12 @@
-import { useState } from 'react'
+import { Outlet } from "react-router-dom";
 
 function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <>
-      <p>A blog project using react ans appwrite</p>
-    </>
-  )
+    return (
+        <>
+            <h1>App</h1> 
+            <Outlet />
+        </>
+    );
 }
 
-export default App
+export default App;

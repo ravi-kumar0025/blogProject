@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { service } from "../appWrite/database";
-import Box from "../components/Box";
+import Box from "../components/box";
 import parse from "html-react-parser";
 import { useSelector } from "react-redux";
 
