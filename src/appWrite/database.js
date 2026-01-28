@@ -1,5 +1,5 @@
 import conf from "../../const.js"
-import { Client, Databases, ID, Storage } from 'appwrite';
+import { Client, Databases, ID, Storage, Query } from 'appwrite';
 
 export class Service {
     
@@ -81,13 +81,14 @@ export class Service {
     }
 
     async getPosts() {
+        const queries = [
+            Query.equal('status', 'published'),
+        ]
         try {
             return await this.databases.listDocuments(
                 conf.appWriteDatabaseId,
                 conf.appWriteCollectionId,
-                queries = [
-                    Query.equal('status', 'published'),
-                ]
+                queries,
             );
         } catch (error) {
             console.log("ERROR TO GET THE POSTS : : ", error);

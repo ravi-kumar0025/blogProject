@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import Input from "./Input.jsx";
 import Select from "./select.jsx";
@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 export default function PostForm({ post }) {
+    const ref = useRef(null);
     const { register, handleSubmit, watch, setValue, control, getValues } = useForm({
         defaultValues: {
             title: post?.title || "",
@@ -66,10 +67,12 @@ export default function PostForm({ post }) {
                 <Input label="Title :"
                     placeholder="Title"
                     className="mb-4"
+                    ref={ref}
                     {...register("title", { required: true })}
                 />
                 <Input label="Slug :"
                     placeholder="Slug.."
+                    ref={ref}
                     className="mb-4"
                     {...register("slug", { required: true })}
                     onInput={(e) => {
@@ -82,6 +85,7 @@ export default function PostForm({ post }) {
             <div className="w-1/3 px-2">
                 <Input label="Blog Image :"
                     type="file"
+                    ref={ref}
                     className="mb-4"
                     accept="image/png, image/jpg, image/jpeg, image/gif"
                     {...register("image", { required: !post })}
@@ -98,6 +102,7 @@ export default function PostForm({ post }) {
                 <Select
                     options={["active", "inactive"]}
                     label="Status"
+                    ref={ref}
                     className="mb-4"
                     {...register("status", { required: true })}
                 />

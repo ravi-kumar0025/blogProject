@@ -26,7 +26,7 @@ export class auth{
         }
     }
 
-    async login({email,password}){
+    async login(email,password){
         try {
             const result=await this.account.createEmailPasswordSession({
                 email:email,
@@ -48,7 +48,7 @@ export class auth{
     }
     async getUser(){
         try {
-            return await this.account.getUser();
+            return await this.account.get();
         } catch (error) {
             console.log("ERROR TO GET USER : : ",error);
             return null;

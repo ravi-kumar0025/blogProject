@@ -2,15 +2,17 @@ import authService from "../appWrite/auth.js"
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Input from "./Input.jsx";
+import { use, useRef } from "react";
 
 const SignUp = () => {
+    const ref=useRef(null);
     const navigate = useNavigate;
     const { register, handleSubmit } = useForm();
 
     const registerUser = async (data) => {
         try {
             await authService.createAccount(data);
-            navigate("/login");
+            // navigate("/login");
         } catch (error) {
             console.log("ERROR TO REGISTER USER : : ", error);
         }
@@ -25,11 +27,11 @@ const SignUp = () => {
             hover:underline hover:-translate-y-0.5">Login</Link>
             </p>
             <form action="" className="mt-8" onSubmit={handleSubmit(registerUser)}>
-                <Input label="Email" type="email" placeholder="Enter your email..."
+                <Input label="Email" ref={ref} type="email" placeholder="Enter your email..."
                     {...register("email", {
                         required: true,
                     })} />
-                <Input label="Password" type="password" placeholder="Enter your password..."
+                <Input label="Password" ref={ref} type="password" placeholder="Enter your password..."
                     {...register("password", {
                         required: true,
                         pattern: {
@@ -38,7 +40,7 @@ const SignUp = () => {
                                 "Password must be 8–15 chars, include upper, lower, number & special character",
                         },
                     })} />
-                <Input label="Name" type="text" placeholder="Enter your name..."
+                <Input label="Name" ref={ref} type="text" placeholder="Enter your name..."
                     {...register("name", {
                         required: true,
                     })} />
