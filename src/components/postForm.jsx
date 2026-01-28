@@ -26,7 +26,7 @@ export default function PostForm({ post }) {
             const file = data.image[0] ? await service.uploadfile(data.image[0]) : null;
             if (file) service.deletefile(post.image);
             const dbPost = await service.updatePost(post.$id, { ...data, image: file ? file.$id : undefined });
-
+            alert('update done')
             if (dbPost) navigate(`/post/${dbPost.$id}`);
         }
         else {
@@ -38,6 +38,7 @@ export default function PostForm({ post }) {
                 if (dbPost)
                     navigate(`/post/${dbPost.$id}`);
             }
+            alert('Post uploaded')
         }
     };
 

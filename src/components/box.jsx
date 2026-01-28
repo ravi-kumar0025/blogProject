@@ -2,7 +2,7 @@ import React from 'react'
 
 const Box = ({children}) => {
   return (
-    <div className=' w-full max-w-7xl mx-auto px-4'>
+    <div className='min-w-screen mx-auto px-4 rounded-3xl'>
         {children}
     </div>
   )

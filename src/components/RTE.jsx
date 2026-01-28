@@ -22,7 +22,7 @@ export default function RTE({
                 defaultValue={defaultValue}
                 render={({ field: { onChange, value } }) => (
                     <Editor
-                        apiKey={import.meta.env.RTE_API_KEY}
+                        apiKey='se86u1uki0yr8aishnlp19yc0pc54024vufpzbiof015kwzd'
                         value={value}           
                         onEditorChange={onChange}
                         init={{

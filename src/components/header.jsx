@@ -1,5 +1,5 @@
 import React from 'react'
-import logOutBtn from './logOut.jsx'
+import LogOut from './logOut.jsx'
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
@@ -39,16 +39,10 @@ function Header() {
 
 
     return (
-        <header className='py-3 shadow bg-gray-500'>
+        <header className='py-3 shadow bg-gray-500 rounded-3xl my-2'>
             <Box>
                 <nav className='flex'>
-                    <div className='mr-4'>
-                        {/* <Link to='/'>
-              <Logo width='70px' />
-            </Link> */}
-                        <p>LOGO</p>
-                    </div>
-                    <ul className='flex ml-auto'>
+                    <ul className='flex mx-auto justify-evenly w-full'>
                         {navItems.map((item) =>
                             item.active ? (
                                 <li key={item.name}>
@@ -61,7 +55,7 @@ function Header() {
                         )}
                         {authStatus && (
                             <li>
-                                <logOutBtn />
+                                <LogOut />
                             </li>
                         )}
                     </ul>
