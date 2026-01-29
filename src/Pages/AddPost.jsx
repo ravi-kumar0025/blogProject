@@ -4,7 +4,7 @@ import Box from '../components/box';
 
 function AddPost() {
     return (
-        <div className='py-8'>
+        <div className=''>
             <Box>
                 <PostForm />
             </Box>

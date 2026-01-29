@@ -21,7 +21,7 @@ const LogOut = () => {
 
   return (
     <button
-    className='bg-indigo-600 hover:not-focus:bg-indigo-700'
+    className=' '
     onClick={handleLogOut}>LogOut</button>
   )
 }

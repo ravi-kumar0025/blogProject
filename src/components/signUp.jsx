@@ -44,9 +44,9 @@ const SignUp = () => {
                     {...register("name", {
                         required: true,
                     })} />
-                <button type="submit" className="w-full bg-blue-500
-              text-white font-medium rounded-lg
-              hover:bg-blue-600 transition-all duration-200
+                <button type="submit" className="w-full 
+              text-black font-medium rounded-lg m-2 
+            transition-all duration-200
             ">Sign Up</button>
             </form>
 
