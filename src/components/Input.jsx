@@ -1,5 +1,6 @@
 import React, { useId } from 'react'
 import "../App.css"
+
 const Input = React.forwardRef(function Input({
     label = "input",
     type = 'text',
@@ -15,8 +16,9 @@ const Input = React.forwardRef(function Input({
             <input
                 type={type}
                 className={`w-full px-3 rounded-lg py-2 border border-gray-300 outline-none
-                 focus:border-blue-500 duration-200 ${className}`}
+                 hover:border-blue-500 focus:border-2 focus:border-blue-700 duration-200 ${className}`}
                 {...props}
+
                 ref={ref}
                 id={id}
             />

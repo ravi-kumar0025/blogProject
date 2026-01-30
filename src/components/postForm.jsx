@@ -62,55 +62,64 @@ export default function PostForm({ post }) {
     }, [watch, slugTransform, setValue]);
 
     return (
-        <form onSubmit={handleSubmit(submit)} className="flex flex-wrap">
+        <form onSubmit={handleSubmit(submit)} className="flex p-2 md:flex-wrap 
+        rounded bg-amber-100 sm:my-20 my-30 mx-auto flex-col">
 
-            <div className="w-2/3 px-2">
-                <Input label="Title :"
-                    placeholder="Title"
-                    className="mb-4"
-                    ref={ref}
-                    {...register("title", { required: true })}
-                />
-                <Input label="Slug :"
-                    placeholder="Slug.."
-                    ref={ref}
-                    className="mb-4"
-                    {...register("slug", { required: true })}
-                    onInput={(e) => {
-                        setValue("slug", slugTransform(e.currentTarget.value), { shouldValidate: true });
-                    }}
-                />
-                <RTE label="Content :" name="content" control={control} defaultValue={getValues("content")} />
+            <div className="flex flex-col justify-evenly sm:flex-row">
+                <div>
+                    <Input label="Title :"
+                        placeholder="Title"
+                        className="mb-4"
+                        ref={ref}
+                        {...register("title", { required: true })}
+                    />
+                    <Input label="Slug :"
+                        placeholder="Slug.."
+                        ref={ref}
+                        className="mb-4"
+                        {...register("slug", { required: true })}
+                        onInput={(e) => {
+                            setValue("slug", slugTransform(e.currentTarget.value), { shouldValidate: true });
+                        }}
+                    />
+                </div>
+
+                <div className="w-full  px-2 sm:flex-col flex-row flex justify-evenly">
+
+                    <Input label="Blog Image :"
+                        type="file"
+                        ref={ref}
+                        className="mb-4 mr-2"
+                        accept="image/png, image/jpg, image/jpeg, image/gif"
+                        {...register("image", { required: !post })}
+                    />
+                    {post && (
+                        <div className="w-full mb-4">
+                            <img
+                                src={service.getFilePreview(post.image)}
+                                alt={post.title}
+                                className="rounded-lg"
+                            />
+                        </div>
+                    )}
+                    <Select
+                        options={["active", "inactive"]}
+                        label="Status"
+                        ref={ref}
+                        className="mb-4 ml-2"
+                        {...register("status", { required: true })}
+                    />
+                </div>
+
             </div>
 
-            <div className="w-1/3 px-2">
-                <Input label="Blog Image :"
-                    type="file"
-                    ref={ref}
-                    className="mb-4"
-                    accept="image/png, image/jpg, image/jpeg, image/gif"
-                    {...register("image", { required: !post })}
-                />
-                {post && (
-                    <div className="w-full mb-4">
-                        <img
-                            src={service.getFilePreview(post.image)}
-                            alt={post.title}
-                            className="rounded-lg"
-                        />
-                    </div>
-                )}
-                <Select
-                    options={["active", "inactive"]}
-                    label="Status"
-                    ref={ref}
-                    className="mb-4"
-                    {...register("status", { required: true })}
-                />
-                <button type="submit" bgColor={post ? "bg-green-500" : undefined} className="w-full">
-                    {post ? "Update" : "Submit"}
-                </button>
-            </div>
+            <RTE label="Content :" name="content" control={control} defaultValue={getValues("content")} />
+
+            <button type="submit" bgColor={post ? "bg-green-500" : undefined} className="
+            bg-blue-600 mt-2 p-2 w-1/2 rounded-xl self-center">
+                {post ? "Update" : "Submit" }
+            </button>
+
         </form>
     );
 }

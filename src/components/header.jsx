@@ -67,8 +67,10 @@ function Header() {
     // )
 
     return (
-        <header className=" z-50 bg-white/80 backdrop-blur-md shadow-md rounded-2xl bg-linear-to-t from-slate-900 via-slate-800 to-slate-900  mt-1 fixed top-0 right-0 left-0 ">
-            <nav className="flex items-center justify-end m-1">
+        <header className=" z-50 min-w-screen bg-white/80 backdrop-blur-md shadow-md rounded-2xl 
+        bg-linear-to-t from-slate-900 via-slate-800 to-slate-900  mt-1 fixed top-0 right-0 left-0 ">
+            <nav className="flex items-center justify-end m-1 border-2 border-white rounded-2xl">
+            {/* <button className='self-start text-white'>BG</button> */}
                 <ul className="flex items-center flex-wrap gap-1 w-full  sm:w-1/2 md:w-1/3  justify-evenly p-2">
                     {navItems.map((item) =>
                         item.active ? (
