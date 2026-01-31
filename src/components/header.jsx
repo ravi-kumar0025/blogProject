@@ -3,36 +3,16 @@ import "../App.css"
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
-function Header() {
+function Header({hidden}) {
     const authStatus = useSelector((state) => state.auth.status)
     const navigate = useNavigate()
 
     const navItems = [
-        {
-            name: 'Home',
-            slug: "/",
-            active: true
-        },
-        {
-            name: "Login",
-            slug: "/login",
-            active: !authStatus,
-        },
-        {
-            name: "Signup",
-            slug: "/signup",
-            active: !authStatus,
-        },
-        {
-            name: "All Posts",
-            slug: "/all-posts",
-            active: authStatus,
-        },
-        {
-            name: "Add Post",
-            slug: "/add-post",
-            active: authStatus,
-        },
+        { name: 'Home', slug: "/", active: true },
+        { name: "Login", slug: "/login", active: !authStatus, },
+        { name: "Signup", slug: "/signup", active: !authStatus, },
+        { name: "All Posts", slug: "/all-posts", active: authStatus, },
+        { name: "Add Post", slug: "/add-post", active: authStatus, },
     ]
 
 
@@ -67,11 +47,16 @@ function Header() {
     // )
 
     return (
-        <header className=" z-50 min-w-screen bg-white/80 backdrop-blur-md shadow-md rounded-2xl 
-        bg-linear-to-t from-slate-900 via-slate-800 to-slate-900  mt-1 fixed top-0 right-0 left-0 ">
+        <header
+            className={` z-50 min-w-screen bg-white/80 backdrop-blur-md shadow-md rounded-2xl
+        bg-linear-to-t from-slate-900 via-slate-800 to-slate-900
+        mt-1 fixed top-0 right-0 left-0
+        transition-transform duration-300
+        ${hidden ? "-translate-y-full" : ""}`}
+        >
             <nav className="flex items-center justify-end m-1 border-2 border-white rounded-2xl">
-            {/* <button className='self-start text-white'>BG</button> */}
-                <ul className="flex items-center flex-wrap gap-1 w-full  sm:w-1/2 md:w-1/3  justify-evenly p-2">
+                {/* <button className='self-start text-white'>BG</button> */}
+                <ul className="flex items-center flex-wrap gap-1 w-full  sm:w-1/2 md:w-2/5  justify-evenly p-2">
                     {navItems.map((item) =>
                         item.active ? (
                             <li key={item.name} className=''>

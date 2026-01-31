@@ -35,6 +35,7 @@ export default function PostForm({ post }) {
                 const fileId = file.$id;
                 data.image = fileId;
                 const dbPost = await service.createPost({ ...data, userId: userData.$id });
+                console.log(dbPost)
                 if (dbPost)
                     navigate(`/post/${dbPost.$id}`);
             }
@@ -62,11 +63,11 @@ export default function PostForm({ post }) {
     }, [watch, slugTransform, setValue]);
 
     return (
-        <form onSubmit={handleSubmit(submit)} className="flex p-2 md:flex-wrap 
-        rounded bg-amber-100 sm:my-20 my-30 mx-auto flex-col">
+        <form onSubmit={handleSubmit(submit)} className="flex p-3 md:flex-wrap 
+        rounded bg-amber-100 sm:my-20 my-30 mx-auto flex-col md:w-2/3">
 
             <div className="flex flex-col justify-evenly sm:flex-row">
-                <div>
+                <div className="sm:w-1/3">
                     <Input label="Title :"
                         placeholder="Title"
                         className="mb-4"
@@ -84,7 +85,7 @@ export default function PostForm({ post }) {
                     />
                 </div>
 
-                <div className="w-full  px-2 sm:flex-col flex-row flex justify-evenly">
+                <div className="w-full  px-2 sm:flex-col sm:w-1/3 flex-row flex justify-evenly">
 
                     <Input label="Blog Image :"
                         type="file"
@@ -115,8 +116,8 @@ export default function PostForm({ post }) {
 
             <RTE label="Content :" name="content" control={control} defaultValue={getValues("content")} />
 
-            <button type="submit" bgColor={post ? "bg-green-500" : undefined} className="
-            bg-blue-600 mt-2 p-2 w-1/2 rounded-xl self-center">
+            <button type="submit" bgcolor={post ? "bg-green-500" : undefined} className="
+            bg-blue-600 mt-2 p-2 w-1/2 rounded-xl self-center sm:w-1/3">
                 {post ? "Update" : "Submit" }
             </button>
 

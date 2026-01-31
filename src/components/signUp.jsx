@@ -41,7 +41,7 @@ const SignUp = () => {
                         pattern: {
                             value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,15}$/,
                             message:
-                                "Password must be 8–15 chars, include upper, lower, number & special character",
+                                "Password must be 8–15 chars, include upper, lower, number & special character,min length 8",
                         },
                     })} />
                 <Input label="Name" ref={ref} type="text" placeholder="Enter your name..."
