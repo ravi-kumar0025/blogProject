@@ -1,5 +1,5 @@
 import conf from "../../const.js";
-import { Client, Account, ID } from "appwrite";
+import { Client, Account, ID} from "appwrite";
 
 export class auth{
     client=new Client();
@@ -46,6 +46,7 @@ export class auth{
             console.log("ERROR TO LOGOUT : : ",error);
         }
     }
+
     async getUser(){
         try {
             return await this.account.get();
@@ -54,6 +55,8 @@ export class auth{
             return null;
         }
     }
+
+
 }
 
 const authService=new auth();

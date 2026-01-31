@@ -23,10 +23,28 @@ import { Outlet } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Header from "./components/header.jsx";
 import Footer from "./components/footer.jsx";
+import { useDispatch } from "react-redux";
+import authService  from "./appWrite/auth.js";
+import {login } from "./store/slice"
 
 function App() {
     const [hideHeader, setHideHeader] = useState(false);
     const [lastScrollY, setLastScrollY] = useState(0);
+    const dispatch=useDispatch();
+
+    useEffect(() => {
+        const checkAuth = async () => {
+            const user = await authService.getUser();
+            if (user) {
+                dispatch(login(user));
+            } else {
+                dispatch(logout());
+            }
+        };
+    
+        checkAuth();
+    }, []);
+
     useEffect(() => {
         let lastScrollY = window.scrollY;
         let accumulated = 0;
