@@ -25,7 +25,7 @@ import Header from "./components/header.jsx";
 import Footer from "./components/footer.jsx";
 import { useDispatch } from "react-redux";
 import authService  from "./appWrite/auth.js";
-import {login } from "./store/slice"
+import {login,logout } from "./store/slice"
 
 function App() {
     const [hideHeader, setHideHeader] = useState(false);

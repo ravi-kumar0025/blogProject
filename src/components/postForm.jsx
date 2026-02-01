@@ -26,18 +26,20 @@ export default function PostForm({ post }) {
 
     const navigate = useNavigate();
     const userData = useSelector((state) => state.auth.userData);
-
+    console.log(userData.$id);
     useEffect(() => {
         const savedDraft = localStorage.getItem(DRAFT_KEY);
         if (savedDraft && !post) {
             const draft = JSON.parse(savedDraft);
             if (draft.title) setValue("title", draft.title);
+            if(draft.slug) setValue("slug",draft.slug);
             if (draft.content) setValue("content", draft.content);
             if (draft.status) setValue("status", draft.status);
         }
     }, [setValue, post]);
 
     const submit = async (data) => {
+        // console.log("check here :",userData);
         if (post) {
             const file = data.image[0] ? await service.uploadfile(data.image[0]) : null;
             if (file) service.deletefile(post.image);
@@ -53,10 +55,11 @@ export default function PostForm({ post }) {
             }
         } else {
             const file = await service.uploadfile(data.image[0]);
+            // console.log("CHECK HERE: ",file)
+            console.log(data)
             if (file) {
                 const fileId = file.$id;
                 data.image = fileId;
-
                 const dbPost = await service.createPost({
                     ...data,
                     userId: userData.$id,
@@ -67,7 +70,7 @@ export default function PostForm({ post }) {
                     navigate(`/post/${dbPost.$id}`);
                 }
             }
-            alert("Post uploaded");
+            // alert("Post uploaded");
         }
     };
 
@@ -94,6 +97,7 @@ export default function PostForm({ post }) {
         const subscription = watch((value) => {
             const draft = {
                 title: value.title,
+                slug:value.slug,
                 content: value.content,
                 status: value.status,
             };
@@ -145,7 +149,7 @@ export default function PostForm({ post }) {
                     {post && (
                         <div className="w-full mb-4">
                             <img
-                                src={service.getFilePreview(post.image)}
+                                src={service.previewfile(post.image)}
                                 alt={post.title}
                                 className="rounded-lg"
                             />

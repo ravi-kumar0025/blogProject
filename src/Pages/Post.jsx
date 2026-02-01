@@ -33,11 +33,11 @@ export default function Post() {
     };
 
     return post ? (
-        <div className="py-8">
+        <div className="py-8 mt-20 mb-5">
             <Box>
                 <div className="w-full flex justify-center mb-4 relative border rounded-xl p-2">
                     <img
-                        src={service.getFilePreview(post.image)}
+                        src={service.previewfile(post.image)}
                         alt={post.title}
                         className="rounded-xl"
                     />

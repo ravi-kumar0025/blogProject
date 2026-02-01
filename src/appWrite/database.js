@@ -2,7 +2,7 @@ import conf from "../../const.js"
 import { Client, Databases, ID, Storage, Query } from 'appwrite';
 
 export class Service {
-    
+
     client = new Client();
     databases;
     buket;
@@ -15,28 +15,20 @@ export class Service {
         this.buket = new Storage(this.client);
     }
 
-    async createPost({ title, slug, image, content, status, userId }) {
+    async createPost({ title, image, content, status, userId }) {
         try {
             return await this.databases.createDocument(
                 conf.appWriteDatabaseId,
                 conf.appWriteCollectionId,
                 ID.unique(),
-                {
-                    title,
-                    slug,
-                    image,
-                    content,
-                    status,
-                    userId,
-                    $createdAt: new Date().toISOString(),
-                }
+                { title, image, content, status, userId, },
             );
         } catch (error) {
             console.log("ERROR TO CREATE POST", error);
         }
     }
 
-    async updatePost(documentId, { title, slug, image, content, status }) {
+    async updatePost(documentId, { title, image, content, status }) {
         try {
             return await this.databases.updateDocument(
                 conf.appWriteDatabaseId,
@@ -44,7 +36,6 @@ export class Service {
                 documentId,
                 {
                     title,
-                    slug,
                     image,
                     content,
                     status,
@@ -82,7 +73,7 @@ export class Service {
 
     async getPosts() {
         const queries = [
-            Query.equal('status', 'published'),
+            Query.equal('status', 'active'),
         ]
         try {
             return await this.databases.listDocuments(
@@ -97,7 +88,7 @@ export class Service {
 
     async uploadfile(file) {
         try {
-            await this.buket.createFile(
+            return await this.buket.createFile(
                 conf.appWriteBucketId,
                 ID.unique(),
                 file
