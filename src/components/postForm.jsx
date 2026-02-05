@@ -26,7 +26,7 @@ export default function PostForm({ post }) {
 
     const navigate = useNavigate();
     const userData = useSelector((state) => state.auth.userData);
-    console.log(userData.$id);
+    console.log(userData);
     useEffect(() => {
         const savedDraft = localStorage.getItem(DRAFT_KEY);
         if (savedDraft && !post) {
@@ -39,39 +39,39 @@ export default function PostForm({ post }) {
     }, [setValue, post]);
 
     const submit = async (data) => {
-        // console.log("check here :",userData);
-        if (post) {
-            const file = data.image[0] ? await service.uploadfile(data.image[0]) : null;
-            if (file) service.deletefile(post.image);
+        console.log("check here :",userData);
+        // if (post) {
+        //     const file = data.image[0] ? await service.uploadfile(data.image[0]) : null;
+        //     if (file) service.deletefile(post.image);
 
-            const dbPost = await service.updatePost(post.$id, {
-                ...data,
-                image: file ? file.$id : undefined,
-            });
-            alert("update done");
-            if (dbPost) {
-                localStorage.removeItem(DRAFT_KEY);
-                navigate(`/post/${dbPost.$id}`);
-            }
-        } else {
-            const file = await service.uploadfile(data.image[0]);
-            // console.log("CHECK HERE: ",file)
-            console.log(data)
-            if (file) {
-                const fileId = file.$id;
-                data.image = fileId;
-                const dbPost = await service.createPost({
-                    ...data,
-                    userId: userData.$id,
-                });
+        //     const dbPost = await service.updatePost(post.$id, {
+        //         ...data,
+        //         image: file ? file.$id : undefined,
+        //     });
+        //     alert("update done");
+        //     if (dbPost) {
+        //         localStorage.removeItem(DRAFT_KEY);
+        //         navigate(`/post/${dbPost.$id}`);
+        //     }
+        // } else {
+        //     const file = await service.uploadfile(data.image[0]);
+        //     console.log("CHECK HERE: ",file)
+        //     console.log(data)
+        //     if (file) {
+        //         const fileId = file.$id;
+        //         data.image = fileId;
+        //         const dbPost = await service.createPost({
+        //             ...data,
+        //             userId: userData.$id,
+        //         });
 
-                if (dbPost) {
-                    localStorage.removeItem(DRAFT_KEY);
-                    navigate(`/post/${dbPost.$id}`);
-                }
-            }
-            // alert("Post uploaded");
-        }
+        //         if (dbPost) {
+        //             localStorage.removeItem(DRAFT_KEY);
+        //             navigate(`/post/${dbPost.$id}`);
+        //         }
+        //     }
+        //     // alert("Post uploaded");
+        // }
     };
 
     const slugTransform = useCallback((value) => {
