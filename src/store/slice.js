@@ -12,7 +12,7 @@ const s=createSlice({
         login(state,action){
             state.status=true,
             state.userData=action.payload.userData
-            // console.log(state.userData.$id);
+            console.log(state.userData);
         },
         logout(state){
             state.status=false;

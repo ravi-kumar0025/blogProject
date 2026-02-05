@@ -4,7 +4,7 @@ import Container from "../components/box";
 import PostCard from "../components/Card";
 import * as motion from "motion/react-client"
 function Home() {
-    
+
     const [posts, setPosts] = useState([]);
 
     useEffect(() => {
@@ -14,25 +14,28 @@ function Home() {
             }
         })
     }, [])
-
+    const isEmpty = posts.length === 0;
     if (posts.length === 0) {
         return (
-            <div className="w-full py-8 mt-4 text-center my-auto">
+            <div
+                className={`w-full text-center ${isEmpty
+                        ? "min-h-screen flex items-center justify-center"
+                        : "py-8"
+                    }`}
+            >
                 <Container>
-                    <div className="flex flex-wrap my-20">
-                        <div className="p-2 w-full text-white flex justify-center mx-auto mx-auto">
-                            {/*animate={{ rotate: 360 }}
-            transition={{ duration: 1 }} */}
+                    <div className="flex flex-wrap mt-20">
+                        <div className="p-2 w-full text-white flex justify-center mx-auto my-auto">
                             <motion.div
                                 initial={{ opacity: 0, scale: 0 }}
-                                animate={{ opacity: 1, scale: 1, rotate: 360}}
+                                animate={{ opacity: 1, scale: 1, rotate: 360 }}
                                 transition={{
                                     duration: 2,
                                     scale: { type: "spring", visualDuration: 1, bounce: 0.75 },
                                 }}
                                 className=' flex justify-center mx-auto'
                             >
-                                <img src="https://storage.needpix.com/rsynced_images/blog-1445367_1280.jpg" alt="" className='rounded-full md:w-1/3 w-1/2' />
+                                <p className='font-black text-6xl md:text-9xl'>BLOGS</p>
                             </motion.div>
                         </div>
                     </div>
@@ -45,7 +48,7 @@ function Home() {
             <Container>
                 <div className='flex flex-wrap'>
                     {posts.map((post) => (
-                        <div key={post.$id} className='p-2 w-1/4'>
+                        <div key={post.$id} className='w-1/4'>
                             <PostCard {...post} />
                         </div>
                     ))}
