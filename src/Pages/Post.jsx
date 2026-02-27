@@ -10,7 +10,8 @@ export default function Post() {
     const navigate = useNavigate();
 
     const userData = useSelector((state) => state.auth.userData);
-    const imageId = typeof post?.image === "string" ? post.image : post?.image?.$id;
+    const imageSource = post?.image || post?.file;
+    const imageId = typeof imageSource === "string" ? imageSource : imageSource?.$id;
 
     const isAuthor = post && userData ? post.userId === userData.$id : false;
 

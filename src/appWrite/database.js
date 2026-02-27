@@ -17,12 +17,12 @@ export class Service {
 
     async createPost({ title, image, content, status, userId }) {
         try {
-            return await this.databases.createDocument(
-                conf.appWriteDatabaseId,
-                conf.appWriteCollectionId,
-                ID.unique(),
-                { title, image, content, status, userId, },
-            );
+            return await this.databases.createDocument({
+                databaseId: conf.appWriteDatabaseId,
+                collectionId: conf.appWriteCollectionId,
+                documentId: ID.unique(),
+                data: { title, image, content, status, userId },
+            });
         } catch (error) {
             console.log("ERROR TO CREATE POST", error);
         }
@@ -30,18 +30,12 @@ export class Service {
 
     async updatePost(documentId, { title, image, content, status }) {
         try {
-            return await this.databases.updateDocument(
-                conf.appWriteDatabaseId,
-                conf.appWriteCollectionId,
+            return await this.databases.updateDocument({
+                databaseId: conf.appWriteDatabaseId,
+                collectionId: conf.appWriteCollectionId,
                 documentId,
-                {
-                    title,
-                    image,
-                    content,
-                    status,
-                    $updatedAt: new Date().toISOString(),
-                }
-            );
+                data: { title, image, content, status },
+            });
         } catch (error) {
             console.log("ERROR TO UPDATE POST", error);
         }
@@ -49,23 +43,25 @@ export class Service {
 
     async deletePost(documentId) {
         try {
-            return await this.databases.deleteDocument(
-                conf.appWriteDatabaseId,
-                conf.appWriteCollectionId,
-                documentId
-            );
+            await this.databases.deleteDocument({
+                databaseId: conf.appWriteDatabaseId,
+                collectionId: conf.appWriteCollectionId,
+                documentId,
+            });
+            return true;
         } catch (error) {
             console.log("ERROR TO DELETE POST : : ", error);
+            return false;
         }
     }
 
     async getPost(documentId) {
         try {
-            return await this.databases.getDocument(
-                conf.appWriteDatabaseId,
-                conf.appWriteCollectionId,
-                documentId
-            );
+            return await this.databases.getDocument({
+                databaseId: conf.appWriteDatabaseId,
+                collectionId: conf.appWriteCollectionId,
+                documentId,
+            });
         } catch (error) {
             console.log("ERROR TO GET THE POST : : ", error);
         }
@@ -76,11 +72,11 @@ export class Service {
             Query.equal('status', 'active'),
         ]
         try {
-            return await this.databases.listDocuments(
-                conf.appWriteDatabaseId,
-                conf.appWriteCollectionId,
+            return await this.databases.listDocuments({
+                databaseId: conf.appWriteDatabaseId,
+                collectionId: conf.appWriteCollectionId,
                 queries,
-            );
+            });
         } catch (error) {
             console.log("ERROR TO GET THE POSTS : : ", error);
         }
@@ -88,11 +84,12 @@ export class Service {
 
     async uploadfile(file) {
         try {
-            return await this.buket.createFile(
-                conf.appWriteBucketId,
-                ID.unique(),
-                file
-            );
+            return await this.buket.createFile({
+                bucketId: conf.appWriteBucketId,
+                fileId: ID.unique(),
+                file,
+                permissions: ['read("any")'],
+            });
         } catch (error) {
             console.log("ERROR TO UPLOAD THE FILE : : ", error);
         }
@@ -100,23 +97,27 @@ export class Service {
 
     async deletefile(fileId) {
         try {
-            await this.buket.deleteFile(
-                conf.appWriteBucketId,
-                fileId
-            );
+            await this.buket.deleteFile({
+                bucketId: conf.appWriteBucketId,
+                fileId,
+            });
+            return true;
         } catch (error) {
             console.log("ERROR TO DELETE THE FILE : : ", error);
+            return false;
         }
     }
 
-    async previewfile(fileId) {
+    previewfile(fileId) {
         try {
-            return this.buket.getFilePreview(
-                conf.appWriteBucketId,
+            const url = this.buket.getFileView({
+                bucketId: conf.appWriteBucketId,
                 fileId,
-            );
+            });
+            return typeof url === "string" ? url : url?.href || String(url || "");
         } catch (error) {
             console.log("ERROR TO PREVIEW THE FILE : : ", error);
+            return "";
         }
     }
 

@@ -12,9 +12,9 @@ const DRAFT_KEY = "blog_draft";
 export default function PostForm({ post }) {
     const ref = useRef(null);
     const [rawTitle, setRawTitle] = useState(post?.title || "");
-    const existingImageId = typeof post?.image === "string" ? post?.image : post?.image?.$id;
+    const existingImageId = typeof (post?.image || post?.file) === "string" ? (post?.image || post?.file) : post?.image?.$id;
 
-    const { register, handleSubmit, setValue, control, getValues } = useForm({
+    const { register, handleSubmit, setValue, control, getValues, reset } = useForm({
         defaultValues: {
             title: post?.title || "",
             slug: post?.$id || "",
@@ -39,8 +39,19 @@ export default function PostForm({ post }) {
     const userData = useSelector((state) => state.auth.userData);
     // console.log(userData);
 
+    const resetForm = () => {
+        reset({
+            title: "",
+            slug: "",
+            content: "",
+            status: "active",
+            image: null,
+        });
+        setRawTitle("");
+        localStorage.removeItem(DRAFT_KEY);
+    };
+
     const submit = async (data) => {
-        // console.log("check here :",userData);
         if (post) {
             const file = data.image[0] ? await service.uploadfile(data.image[0]) : null;
             if (file && existingImageId) service.deletefile(existingImageId);
@@ -65,11 +76,11 @@ export default function PostForm({ post }) {
                 });
 
                 if (dbPost) {
+                    resetForm();
                     localStorage.removeItem(DRAFT_KEY);
                     navigate(`/post/${dbPost.$id}`);
                 }
             }
-            // alert("Post uploaded");
         }
     };
 
@@ -92,6 +103,7 @@ export default function PostForm({ post }) {
     }, [rawTitle, slugTransform, setValue]);
 
     useEffect(() => {
+        if (post) return;
         if (!watchedValues) return;
         const draft = {
             title: watchedValues.title || "",
@@ -100,7 +112,7 @@ export default function PostForm({ post }) {
             status: watchedValues.status || "active",
         };
         localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
-    }, [watchedValues]);
+    }, [watchedValues, post]);
 
     return (
         <form
@@ -171,13 +183,22 @@ export default function PostForm({ post }) {
                 defaultValue={getValues("content")}
             />
 
-            <button
-                type="submit"
-                bgcolor={post ? "bg-green-500" : undefined}
-                className="bg-blue-600 mt-2 p-2 w-1/2 rounded-xl self-center sm:w-1/3"
-            >
-                {post ? "Update" : "Submit"}
-            </button>
+            <div className="mt-2 flex w-full justify-center gap-3">
+                <button
+                    type="submit"
+                    bgcolor={post ? "bg-green-500" : undefined}
+                    className="w-1/3 rounded-xl bg-blue-600 p-2 text-white"
+                >
+                    {post ? "Update" : "Submit"}
+                </button>
+                <button
+                    type="button"
+                    onClick={resetForm}
+                    className="w-1/3 rounded-xl bg-slate-600 p-2 text-white hover:bg-slate-500"
+                >
+                    Reset
+                </button>
+            </div>
         </form>
     );
 }
