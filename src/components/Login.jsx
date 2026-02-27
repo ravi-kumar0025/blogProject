@@ -14,7 +14,6 @@ function Login() {
 
     const loginUser = async (data) => {
         setError("");
-        console.log("DATA", data);
         try {
             const user = await authService.getUser();
             if (user) {
@@ -26,14 +25,13 @@ function Login() {
                 data.email, data.password);
             if (res) {
                 const userData = await authService.getUser();
-                console.log("USER DATA : : ", userData);
                 if (userData) {
                     dispatch(login({ userData }));
                     navigate("/");
                 }
             }
         } catch (err) {
-            setError(err.messsage || "Login failed");
+            setError(err.message || "Login failed");
         }
     }
 

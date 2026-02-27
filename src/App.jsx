@@ -14,7 +14,7 @@ function App() {
         const checkAuth = async () => {
             const user = await authService.getUser();
             if (user) {
-                dispatch(login(user));
+                dispatch(login({ userData: user }));
             } else {
                 dispatch(logout());
             }

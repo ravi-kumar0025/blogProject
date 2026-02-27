@@ -10,6 +10,7 @@ export default function Post() {
     const navigate = useNavigate();
 
     const userData = useSelector((state) => state.auth.userData);
+    const imageId = typeof post?.image === "string" ? post.image : post?.image?.$id;
 
     const isAuthor = post && userData ? post.userId === userData.$id : false;
 
@@ -26,8 +27,8 @@ export default function Post() {
         if (!post) return;
         const status = await service.deletePost(post.$id);
         if (status !== false) {
-            if (post.image) {
-                await service.deletefile(post.image);
+            if (imageId) {
+                await service.deletefile(imageId);
             }
             navigate("/");
         }
@@ -37,7 +38,7 @@ export default function Post() {
         <div className="mx-auto mb-8 w-full max-w-5xl px-4 py-6 text-white">
             <div className="relative mb-6 overflow-hidden rounded-2xl border border-white/10 bg-slate-900/40">
                 <img
-                    src={service.previewfile(post.image)}
+                    src={imageId ? service.previewfile(imageId) : ""}
                     alt={post.title}
                     className="h-[260px] w-full object-cover md:h-[420px]"
                 />

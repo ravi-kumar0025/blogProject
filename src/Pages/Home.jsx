@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { service } from "../appWrite/database.js"
 import Container from "../components/box";
 import PostCard from "../components/Card";
-import { motion } from "motion/react"
+import { motion as Motion } from "motion/react"
 function Home() {
 
     const [posts, setPosts] = useState([]);
@@ -26,7 +26,7 @@ function Home() {
                 <Container>
                     <div className="flex flex-wrap mt-20">
                         <div className="p-2 w-full text-white flex justify-center mx-auto my-auto">
-                            <motion.div
+                            <Motion.div
                                 initial={{ opacity: 0, scale: 0 }}
                                 animate={{ opacity: 1, scale: 1, rotate: 360 }}
                                 transition={{
@@ -36,7 +36,7 @@ function Home() {
                                 className=' flex justify-center mx-auto'
                             >
                                 <p className='font-black text-6xl md:text-9xl'>BLOGS</p>
-                            </motion.div>
+                            </Motion.div>
                         </div>
                     </div>
                 </Container>

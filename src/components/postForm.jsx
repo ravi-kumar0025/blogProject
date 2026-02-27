@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import Input from "./Input.jsx";
 import Select from "./select.jsx";
 import RTE from "./RTE.jsx";
@@ -10,12 +10,11 @@ import { useSelector } from "react-redux";
 const DRAFT_KEY = "blog_draft";
 
 export default function PostForm({ post }) {
-    const [title, setTitle] = useState("");
-    const [content, setContent] = useState("");
-
     const ref = useRef(null);
+    const [rawTitle, setRawTitle] = useState(post?.title || "");
+    const existingImageId = typeof post?.image === "string" ? post?.image : post?.image?.$id;
 
-    const { register, handleSubmit, watch, setValue, control, getValues, reset} = useForm({
+    const { register, handleSubmit, setValue, control, getValues } = useForm({
         defaultValues: {
             title: post?.title || "",
             slug: post?.$id || "",
@@ -25,6 +24,8 @@ export default function PostForm({ post }) {
     });
 
     const navigate = useNavigate();
+    const watchedValues = useWatch({ control });
+
     useEffect(() => {
         const savedDraft = localStorage.getItem(DRAFT_KEY);
         if (savedDraft && !post) {
@@ -42,11 +43,11 @@ export default function PostForm({ post }) {
         // console.log("check here :",userData);
         if (post) {
             const file = data.image[0] ? await service.uploadfile(data.image[0]) : null;
-            if (file) service.deletefile(post.image);
+            if (file && existingImageId) service.deletefile(existingImageId);
 
             const dbPost = await service.updatePost(post.$id, {
                 ...data,
-                image: file ? file.$id : undefined,
+                image: file ? file.$id : existingImageId,
             });
             alert("update done");
             if (dbPost) {
@@ -55,7 +56,6 @@ export default function PostForm({ post }) {
             }
         } else {
             const file = await service.uploadfile(data.image[0]);
-            console.log("CHECK HERE: ",file)
             if (file) {
                 const fileId = file.$id;
                 data.image = fileId;
@@ -84,27 +84,23 @@ export default function PostForm({ post }) {
     }, []);
 
     useEffect(() => {
-        const subscription = watch((value, { name }) => {
-            if (name === "title") {
-                setValue("slug", slugTransform(value.title), { shouldValidate: true });
-            }
-        });
-        return () => subscription.unsubscribe();
-    }, [watch, slugTransform, setValue]);
+        if (rawTitle) {
+            setValue("slug", slugTransform(rawTitle), { shouldValidate: true });
+        } else {
+            setValue("slug", "", { shouldValidate: true });
+        }
+    }, [rawTitle, slugTransform, setValue]);
 
     useEffect(() => {
-        const subscription = watch((value) => {
-            const draft = {
-                title: value.title,
-                slug:value.slug,
-                content: value.content,
-                status: value.status,
-            };
-            localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
-        });
-
-        return () => subscription.unsubscribe();
-    }, [watch]);
+        if (!watchedValues) return;
+        const draft = {
+            title: watchedValues.title || "",
+            slug: watchedValues.slug || "",
+            content: watchedValues.content || "",
+            status: watchedValues.status || "active",
+        };
+        localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
+    }, [watchedValues]);
 
     return (
         <form
@@ -120,6 +116,9 @@ export default function PostForm({ post }) {
                         className="mb-4"
                         ref={ref}
                         {...register("title", { required: true })}
+                        onInput={(e) => {
+                            setRawTitle(e.currentTarget.value);
+                        }}
                     />
                     <Input
                         label="Slug :"
@@ -148,7 +147,7 @@ export default function PostForm({ post }) {
                     {post && (
                         <div className="w-full mb-4">
                             <img
-                                src={service.previewfile(post.image)}
+                                src={existingImageId ? service.previewfile(existingImageId) : ""}
                                 alt={post.title}
                                 className="rounded-lg"
                             />
