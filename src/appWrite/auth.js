@@ -43,7 +43,7 @@ export class auth{
 
     async logOut(){
         try {
-            await this.account.deleteSessions();
+            await this.account.deleteSession("current");
             console.log("USER LOGED OUT FROM ALL SOURCES\n");
             return true;
         } catch (error) {

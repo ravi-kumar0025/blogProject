@@ -41,7 +41,7 @@ export default function Post() {
                 <img
                     src={imageId ? service.previewfile(imageId) : ""}
                     alt={post.title}
-                    className="h-[260px] w-full object-cover md:h-[420px]"
+                    className="h-[260px] w-full object-contain bg-slate-950 md:h-[420px]"
                 />
 
                 {isAuthor && (

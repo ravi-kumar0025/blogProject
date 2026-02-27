@@ -10,17 +10,22 @@ const LogOut = () => {
 
     const handleLogOut=async()=>{
         try {
-          await auth.logOut();
+          const status = await auth.logOut();
+          if (!status) {
+            console.log("LOGOUT FAILED ON SERVER, CLEARNING LOCAL STATE");
+          }
           disPatch(logout());
-          navigate('/');
+          navigate('/login');
         } catch (error) {
             console.log("ERROR TO LOGOUT IN COMPONENT : : ",error);
+            disPatch(logout());
+            navigate('/login');
         }
     }
 
   return (
     <button
-    className=' '
+    className='cursor-pointer'
     onClick={handleLogOut}>LogOut</button>
   )
 }

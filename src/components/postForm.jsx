@@ -161,7 +161,7 @@ export default function PostForm({ post }) {
                             <img
                                 src={existingImageId ? service.previewfile(existingImageId) : ""}
                                 alt={post.title}
-                                className="rounded-lg"
+                                className="h-48 w-full rounded-lg bg-slate-950 object-contain"
                             />
                         </div>
                     )}

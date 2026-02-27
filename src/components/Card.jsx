@@ -9,7 +9,7 @@ const Card = ({ $id, title, image, file }) => {
     transition duration-200 hover:-translate-y-1 hover:shadow-lg hover:shadow-cyan-500/20'>
             <div className='w-full p-3'>
                 <div className='overflow-hidden rounded-lg'>
-                    <img src={imageId ? service.previewfile(imageId) : ""} alt={title} className='h-48 w-full object-cover' />
+                    <img src={imageId ? service.previewfile(imageId) : ""} alt={title} className='h-48 w-full bg-slate-950 object-contain' />
                 </div>
                 <div className='mt-3 text-lg font-bold text-white'>
                     {title}
