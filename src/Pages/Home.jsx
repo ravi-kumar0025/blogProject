@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { service } from "../appWrite/database.js"
 import Container from "../components/box";
 import PostCard from "../components/Card";
-import * as motion from "motion/react-client"
+import { motion } from "motion/react"
 function Home() {
 
     const [posts, setPosts] = useState([]);
@@ -46,9 +46,9 @@ function Home() {
     return (
         <div className='w-full py-8'>
             <Container>
-                <div className='flex flex-wrap'>
+                <div className='grid grid-cols-1 gap-4 p-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
                     {posts.map((post) => (
-                        <div key={post.$id} className='w-1/4'>
+                        <div key={post.$id}>
                             <PostCard {...post} />
                         </div>
                     ))}

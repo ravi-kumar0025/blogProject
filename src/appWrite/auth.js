@@ -20,9 +20,13 @@ export class auth{
                 password:password,
                 name:name,
             })
-            console.log(user);
+            if (user) {
+                await this.login(email, password);
+            }
+            return user;
         } catch (error) {
             console.log("ERROR IN ACCOUNT CREATION : : ",error);
+            return null;
         }
     }
 
@@ -33,8 +37,10 @@ export class auth{
                 password:password,
             })
             console.log("LOGIN SUCCESSFULLY");
+            return result;
         } catch (error) {
             console.log("ERROR TO LOGIN : : ",error);
+            return null;
         }
     }
 
@@ -42,8 +48,10 @@ export class auth{
         try {
             await this.account.deleteSessions();
             console.log("USER LOGED OUT FROM ALL SOURCES\n");
+            return true;
         } catch (error) {
             console.log("ERROR TO LOGOUT : : ",error);
+            return false;
         }
     }
 

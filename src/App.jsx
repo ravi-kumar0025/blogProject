@@ -8,7 +8,6 @@ import {login,logout } from "./store/slice"
 
 function App() {
     const [hideHeader, setHideHeader] = useState(false);
-    const [lastScrollY, setLastScrollY] = useState(0);
     const dispatch=useDispatch();
 
     useEffect(() => {
@@ -22,7 +21,7 @@ function App() {
         };
     
         checkAuth();
-    }, []);
+    }, [dispatch]);
 
     useEffect(() => {
         let lastScrollY = window.scrollY;
@@ -49,7 +48,7 @@ function App() {
     return (
         <div className="min-h-screen p-1 flex flex-col">
             <Header hidden={hideHeader} />
-            <main className="flex-1">
+            <main className="flex-1 pt-20">
                 <Outlet />
             </main>
             <Footer />

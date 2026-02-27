@@ -22,41 +22,43 @@ export default function Post() {
         } else navigate("/");
     }, [slug, navigate]);
 
-    const deletePost = () => {
-        service.deletePost(post.$id).then((status) => {
-            if (status) {
-                service.deletefile(post.image);
-                navigate("/");
+    const deletePost = async () => {
+        if (!post) return;
+        const status = await service.deletePost(post.$id);
+        if (status !== false) {
+            if (post.image) {
+                await service.deletefile(post.image);
             }
-        });
+            navigate("/");
+        }
     };
 
     return post ? (
-        <div className="py-8 mt-20 mb-5 mx-auto">
-            <div className="w-full md:w-1/2 flex justify-center mb-4 relative border rounded-xl p-2">
+        <div className="mx-auto mb-8 w-full max-w-5xl px-4 py-6 text-white">
+            <div className="relative mb-6 overflow-hidden rounded-2xl border border-white/10 bg-slate-900/40">
                 <img
-                    src={service.previewfile(post.image.$id)}
+                    src={service.previewfile(post.image)}
                     alt={post.title}
-                    className="rounded-xl"
+                    className="h-[260px] w-full object-cover md:h-[420px]"
                 />
 
                 {isAuthor && (
-                    <div className="absolute right-6 top-6">
+                    <div className="absolute right-4 top-4 flex gap-2">
                         <Link to={`/edit-post/${post.$id}`}>
-                            <button className="mr-3 bg-green-500">
+                            <button className="rounded-md bg-emerald-500 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-400">
                                 Edit
                             </button>
                         </Link>
-                        <button  onClick={deletePost} className="bg-red-500 text-white">
+                        <button onClick={deletePost} className="rounded-md bg-rose-500 px-4 py-2 text-sm font-medium text-white hover:bg-rose-400">
                             Delete
                         </button>
                     </div>
                 )}
             </div>
-            <div className="w-full mb-6">
-                <h1 className="text-2xl font-bold text-white">{post.title}</h1>
+            <div className="mb-6 w-full">
+                <h1 className="text-3xl font-bold md:text-4xl">{post.title}</h1>
             </div>
-            <div className="browser-css text-white">
+            <div className="prose prose-invert max-w-none">
                 {parse(post.content)}
             </div>
         </div>

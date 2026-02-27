@@ -16,6 +16,7 @@ const s=createSlice({
         },
         logout(state){
             state.status=false;
+            state.userData=null;
         }
     }
 })
