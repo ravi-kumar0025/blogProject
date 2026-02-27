@@ -9,6 +9,7 @@ function Header({hidden}) {
 
     const navItems = [
         { name: 'Home', slug: "/", active: true },
+        { name: "Contact", slug: "/contact", active: true },
         { name: "Login", slug: "/login", active: !authStatus, },
         { name: "Signup", slug: "/signup", active: !authStatus, },
         { name: "All Posts", slug: "/all-posts", active: authStatus, },

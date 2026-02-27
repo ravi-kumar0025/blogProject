@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { service } from "../appWrite/database";
 import parse from "html-react-parser";
 import { useSelector } from "react-redux";
+import { isAdminUser } from "../utils/admin";
 
 export default function Post() {
     const [post, setPost] = useState(null);
@@ -14,6 +15,7 @@ export default function Post() {
     const imageId = typeof imageSource === "string" ? imageSource : imageSource?.$id;
 
     const isAuthor = post && userData ? post.userId === userData.$id : false;
+    const canManagePost = isAuthor || isAdminUser(userData);
 
     useEffect(() => {
         if (slug) {
@@ -44,8 +46,8 @@ export default function Post() {
                     className="h-[260px] w-full object-contain bg-slate-950 md:h-[420px]"
                 />
 
-                {isAuthor && (
-                    <div className="absolute right-4 top-4 flex gap-2">
+                {canManagePost && (
+                    <div className="mt-3 flex justify-end gap-2 p-3 md:absolute md:right-4 md:top-4 md:mt-0 md:p-0">
                         <Link to={`/edit-post/${post.$id}`}>
                             <button className="rounded-md bg-emerald-500 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-400">
                                 Edit

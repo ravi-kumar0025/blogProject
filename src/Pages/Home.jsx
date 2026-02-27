@@ -19,12 +19,12 @@ function Home() {
         return (
             <div
                 className={`w-full text-center ${isEmpty
-                        ? "min-h-screen flex items-center justify-center"
-                        : "py-8"
+                        ? "flex min-h-[55vh] items-center justify-center py-4"
+                        : "py-4"
                     }`}
             >
                 <Container>
-                    <div className="flex flex-wrap mt-20">
+                    <div className="flex flex-wrap">
                         <div className="p-2 w-full text-white flex justify-center mx-auto my-auto">
                             <Motion.div
                                 initial={{ opacity: 0, scale: 0 }}
@@ -44,7 +44,7 @@ function Home() {
         )
     }
     return (
-        <div className='w-full py-8'>
+        <div className='w-full py-4'>
             <Container>
                 <div className='grid grid-cols-1 gap-4 p-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
                     {posts.map((post) => (
